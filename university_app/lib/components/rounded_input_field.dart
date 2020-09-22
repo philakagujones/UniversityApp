@@ -5,10 +5,12 @@ import 'package:flutter_auth/constants.dart';
 class RoundedInputField extends StatelessWidget {
   final String hintText;
   final IconData icon;
+  final TextEditingController controller;
   final ValueChanged<String> onChanged;
   const RoundedInputField({
     Key key,
     this.hintText,
+    this.controller,
     this.icon = Icons.person,
     this.onChanged,
   }) : super(key: key);

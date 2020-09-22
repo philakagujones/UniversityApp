@@ -26,9 +26,7 @@ app.post('/register', (req, res) => {
             console.log("A new user has registered")
         }
     })
-
-    
-
+    res.json({status:"OK"})
     res.end()
 })
 
