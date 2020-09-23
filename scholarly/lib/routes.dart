@@ -7,7 +7,6 @@ import 'package:Scholarly/screens/sign_in/sign_in_screen.dart';
 import 'package:Scholarly/screens/sign_in/sign_up/sign_up_screen.dart';
 import 'package:Scholarly/screens/splash/splash_screen.dart';
 
-// We use name route
 // All our routes will be available here
 final Map<String, WidgetBuilder> routes = {
   SplashScreen.routeName: (context) => SplashScreen(),
