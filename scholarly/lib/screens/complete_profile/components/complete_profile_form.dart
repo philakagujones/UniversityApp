@@ -1,8 +1,8 @@
+import 'package:Scholarly/screens/login_success/login_success_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:Scholarly/components/custom_surfix_icon.dart';
 import 'package:Scholarly/components/default_button.dart';
 import 'package:Scholarly/components/form_error.dart';
-import 'package:Scholarly/screens/otp/otp_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -53,7 +53,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             text: "Continue",
             press: () {
               if (_formKey.currentState.validate()) {
-                Navigator.pushNamed(context, OtpScreen.routeName);
+                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
               }
             },
           ),

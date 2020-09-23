@@ -3,7 +3,6 @@ import 'package:Scholarly/screens/complete_profile/complete_profile_screen.dart'
 import 'package:Scholarly/screens/forgot_password/forgot_password_screen.dart';
 import 'package:Scholarly/screens/home/home_screen.dart';
 import 'package:Scholarly/screens/login_success/login_success_screen.dart';
-import 'package:Scholarly/screens/otp/otp_screen.dart';
 import 'package:Scholarly/screens/sign_in/sign_in_screen.dart';
 import 'package:Scholarly/screens/sign_in/sign_up/sign_up_screen.dart';
 import 'package:Scholarly/screens/splash/splash_screen.dart';
@@ -17,6 +16,5 @@ final Map<String, WidgetBuilder> routes = {
   LoginSuccessScreen.routeName: (context) => LoginSuccessScreen(),
   SignUpScreen.routeName: (context) => SignUpScreen(),
   CompleteProfileScreen.routeName: (context) => CompleteProfileScreen(),
-  OtpScreen.routeName: (context) => OtpScreen(),
   HomeScreen.routeName: (context) => HomeScreen(),
 };
