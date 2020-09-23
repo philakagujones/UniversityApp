@@ -18,12 +18,36 @@ app.use(express.json())
 app.post('/register', (req, res) => {
     const email = req.body.email
     const password = req.body.password
+    const firstname = req.body.firstname
+    const lastname = req.body.lastname
+    const phoneNumber = req.body.phone
+    const address = req.body.address
 
-    con.query("INSERT INTO users (email, password) VALUES (?,?);", [email, password], (err, result, fields) => {
+    var registerSql = "INSERT IGNORE INTO users (email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?);"
+    con.query(registerSql, [email, password, firstname, lastname, phoneNumber, address], (err, result, fields) => {
         if (err){
             console.log("Failed to insert new user: " + err)
         } else {
             console.log("A new user has registered")
+        }
+    })
+    res.json({status:"OK"})
+    res.end()
+})
+
+app.put('/register', (req, res) => {
+    const id = req.body.id
+    const firstname = req.body.firstname
+    const lastname = req.body.lastname
+    const phoneNumber = req.body.phone
+    const address = req.body.address
+
+    var updateRegister = "UPDATE users SET firstname = ?, lastname = ?, phone = ?, address = ? WHERE email = ?"
+    con.query(updateRegister, [firstname, lastname, phoneNumber, address, id], (err, result, fields) => {
+        if (err){
+            console.log("Failed to update user: "  + err)
+        } else {
+            console.log("Success! user information updated")
         }
     })
     res.json({status:"OK"})

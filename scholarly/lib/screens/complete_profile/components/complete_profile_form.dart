@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:Scholarly/components/custom_surfix_icon.dart';
 import 'package:Scholarly/components/default_button.dart';
 import 'package:Scholarly/components/form_error.dart';
-
+import 'package:Scholarly/modules/http.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
@@ -19,6 +19,10 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String lastName;
   String phoneNumber;
   String address;
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -32,6 +36,22 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       setState(() {
         errors.remove(error);
       });
+  }
+
+  updateUser() async{
+    var result = await http_put("register", {
+      "firstname": firstNameController.text,
+      "lastname": lastNameController.text,
+      "phone": phoneNumberController.text,
+      "address": addressController.text
+    });
+    if(result.ok){
+      String response = result.data['status'];
+      print(response);
+    }
+    if (_formKey.currentState.validate()) {
+          Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+      }
   }
 
   @override
@@ -51,11 +71,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "Continue",
-            press: () {
-              if (_formKey.currentState.validate()) {
-                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-              }
-            },
+            press: updateUser,
           ),
         ],
       ),
