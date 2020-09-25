@@ -8,6 +8,7 @@ import './details_screen.dart';
 import './category.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../menu_dashboard/menu_dashboard_layout.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -21,7 +22,19 @@ class Body extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                SvgPicture.asset("assets/icons/menu.svg"),
+                InkWell(
+                  child: SvgPicture.asset("assets/icons/menu.svg"),
+                  onTap: () {
+                    setState(() {
+                      if (isCollapsed)
+                        _controller.forward();
+                      else
+                        _controller.reverse();
+
+                      isCollapsed = !isCollapsed;
+                    });
+                  },
+                ),
                 Image.asset("assets/images/user.png"),
               ],
             ),
