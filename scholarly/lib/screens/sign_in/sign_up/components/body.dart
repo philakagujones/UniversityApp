@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:Scholarly/components/socal_card.dart';
 import 'package:Scholarly/constants.dart';
 import 'package:Scholarly/size_config.dart';
 
