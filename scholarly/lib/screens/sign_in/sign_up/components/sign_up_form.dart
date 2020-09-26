@@ -40,20 +40,20 @@ class _SignUpFormState extends State<SignUpForm> {
       });
   }
 
-  createUser() async{
+  createUser() async {
     var result = await http_post("register", {
       "email": emailController.text,
       "password": passwordController.text,
     });
-    if(result.ok){
+    if (result.ok) {
       String response = result.data['status'];
       print(response);
     }
-if (_formKey.currentState.validate()) {
+    if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-          // if all are valid then go to success screen
-        Navigator.pushNamed(context, CompleteProfileScreen.routeName);
-    } 
+      // if all are valid then go to success screen
+      Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+    }
   }
 
   @override
