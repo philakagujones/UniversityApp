@@ -38,20 +38,20 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       });
   }
 
-  updateUser() async{
-    var result = await http_put("register", {
+  updateUser() async {
+    var result = await http_post("register", {
       "firstname": firstNameController.text,
       "lastname": lastNameController.text,
       "phone": phoneNumberController.text,
       "address": addressController.text
     });
-    if(result.ok){
+    if (result.ok) {
       String response = result.data['status'];
       print(response);
     }
     if (_formKey.currentState.validate()) {
-          Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-      }
+      Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+    }
   }
 
   @override

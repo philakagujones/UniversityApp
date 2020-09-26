@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+
 import 'package:Scholarly/components/custom_surfix_icon.dart';
 import 'package:Scholarly/components/default_button.dart';
 import 'package:Scholarly/components/form_error.dart';
