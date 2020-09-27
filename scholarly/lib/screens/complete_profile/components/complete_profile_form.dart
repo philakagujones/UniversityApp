@@ -69,10 +69,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           buildAddressFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
-          DefaultButton(
-            text: "Continue",
-            press: updateUser,
-          ),
         ],
       ),
     );

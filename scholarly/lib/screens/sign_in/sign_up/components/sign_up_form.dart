@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:Scholarly/components/custom_surfix_icon.dart';
 import 'package:Scholarly/components/default_button.dart';
 import 'package:Scholarly/components/form_error.dart';
-import 'package:Scholarly/screens/complete_profile/complete_profile_screen.dart';
+// import 'package:Scholarly/screens/complete_profile/complete_profile_screen.dart';
 import 'package:Scholarly/screens/login_success/login_success_screen.dart';
 import 'package:Scholarly/modules/http.dart';
 
@@ -17,13 +17,21 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
+  final List<String> errors = [];
   String email;
   String password;
-  String conform_password;
+  String confirm_password;
+  String firstName;
+  String lastName;
+  String phoneNumber;
+  String address;
   bool remember = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final List<String> errors = [];
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -43,6 +51,10 @@ class _SignUpFormState extends State<SignUpForm> {
     var result = await http_post("register", {
       "email": emailController.text,
       "password": passwordController.text,
+      "firstname": firstNameController.text,
+      "lastname": lastNameController.text,
+      "phone": phoneNumberController.text,
+      "address": addressController.text
     });
     if (result.ok) {
       String response = result.data['status'];
@@ -51,7 +63,7 @@ class _SignUpFormState extends State<SignUpForm> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       // if all are valid then go to success screen
-      Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+      Navigator.pushNamed(context, LoginSuccessScreen.routeName);
     }
   }
 
@@ -65,7 +77,15 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPasswordFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildConformPassFormField(),
+          buildConfirmPassFormField(),
+          SizedBox(height: getProportionateScreenHeight(40)),
+          buildFirstNameFormField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildLastNameFormField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildPhoneNumberFormField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildAddressFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
@@ -77,18 +97,107 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  TextFormField buildConformPassFormField() {
+  TextFormField buildAddressFormField() {
+    return TextFormField(
+      onSaved: (newValue) => address = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kAddressNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: kAddressNullError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Address",
+        hintText: "Enter your home address",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon:
+            CustomSurffixIcon(svgIcon: "assets/icons/Location point.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildPhoneNumberFormField() {
+    return TextFormField(
+      keyboardType: TextInputType.phone,
+      onSaved: (newValue) => phoneNumber = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPhoneNumberNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: kPhoneNumberNullError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Phone Number",
+        hintText: "Enter your phone number",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildLastNameFormField() {
+    return TextFormField(
+      onSaved: (newValue) => lastName = newValue,
+      decoration: InputDecoration(
+        labelText: "Last Name",
+        hintText: "Enter your last name",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildFirstNameFormField() {
+    return TextFormField(
+      onSaved: (newValue) => firstName = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kNamelNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: kNamelNullError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "First Name",
+        hintText: "Enter your first name",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildConfirmPassFormField() {
     return TextFormField(
       controller: passwordController,
       obscureText: true,
-      onSaved: (newValue) => conform_password = newValue,
+      onSaved: (newValue) => confirm_password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPassNullError);
-        } else if (value.isNotEmpty && password == conform_password) {
+        } else if (value.isNotEmpty && password == confirm_password) {
           removeError(error: kMatchPassError);
         }
-        conform_password = value;
+        confirm_password = value;
       },
       validator: (value) {
         if (value.isEmpty) {

@@ -3,6 +3,7 @@ import 'package:Scholarly/constants.dart';
 import 'package:Scholarly/size_config.dart';
 
 import 'sign_up_form.dart';
+// import './../../../complete_profile/components/complete_profile_form.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -29,9 +30,10 @@ class Body extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [],
                 ),
+                // CompleteProfileForm(),
                 SizedBox(height: getProportionateScreenHeight(20)),
                 Text(
-                  'By continuing your confirm that you agree \nwith our Terms and Conditions',
+                  'By continuing you confirm that you agree \nwith our Terms and Conditions',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.caption,
                 )

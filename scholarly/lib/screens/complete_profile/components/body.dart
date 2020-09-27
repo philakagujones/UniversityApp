@@ -26,7 +26,7 @@ class Body extends StatelessWidget {
                 CompleteProfileForm(),
                 SizedBox(height: getProportionateScreenHeight(30)),
                 Text(
-                  "By continuing your confirm that you agree \nwith our Terms and Conditions",
+                  "By continuing you confirm that you agree \nwith our Terms and Conditions",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.caption,
                 ),
