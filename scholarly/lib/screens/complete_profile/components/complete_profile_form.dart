@@ -39,7 +39,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   }
 
   updateUser() async {
-    var result = await http_post("register", {
+    var result = await http_put("register", {
       "firstname": firstNameController.text,
       "lastname": lastNameController.text,
       "phone": phoneNumberController.text,
