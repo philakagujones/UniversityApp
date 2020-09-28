@@ -104,6 +104,7 @@ class Body extends StatelessWidget {
           ],
         ),
       ),
+      // start of bottom nav
       bottomNavigationBar: CurvedNavigationBar(
         color: Colors.white10,
         backgroundColor: Colors.white10,
