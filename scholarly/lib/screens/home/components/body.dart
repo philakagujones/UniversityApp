@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../size_config.dart';
@@ -102,6 +103,20 @@ class Body extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        color: Colors.white10,
+        backgroundColor: Colors.white10,
+        buttonBackgroundColor: Colors.white70,
+        items: <Widget>[
+          Icon(Icons.bookmark, size: 30),
+          Icon(Icons.home, size: 30),
+          Icon(Icons.account_circle, size: 30),
+        ],
+        index: 1,
+        onTap: (index) {
+          //Handle button tap
+        },
       ),
     );
   }
