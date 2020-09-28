@@ -19,19 +19,23 @@ router.post('/register', (req, res) => {
     const phoneNumber = req.body.phone
     const address = req.body.address
 
-    var registerSql = "INSERT IGNORE INTO users (email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?);"
-    con.query(registerSql, [email, password, firstname, lastname, phoneNumber, address], (err, result, fields) => {
-        if (err){
-            console.log("Failed to insert new user: " + err)
-        } else {
-            console.log("A new user has registered")
-        }
-    })
-    res.json({status:"OK"})
-    res.end()
+    if(email != "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" && password == "" || password.length < 9 ){
+        console.log("credentials not valid")
+    } else {
+        var registerSql = "INSERT IGNORE INTO users (email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?);"
+        con.query(registerSql, [email, password, firstname, lastname, phoneNumber, address], (err, result, fields) => {
+            if (err){
+                console.log("Failed to insert new user: " + err)
+            } else {
+                console.log("A new user has registered")
+            }
+        })
+        res.json({status:"OK"})
+        res.end()
+    }
 })
 
-router.put('/register', (req, res) => {
+/*router.put('/register', (req, res) => {
     const email = req.body.email
     const firstname = req.body.firstname
     const lastname = req.body.lastname
@@ -48,7 +52,7 @@ router.put('/register', (req, res) => {
     })
     res.json({status:"OK"})
     res.end()
-})
+})*/
 
 router.get('/get-users', (req, res) =>{
     con.query("SELECT * FROM users", (err, rows, fields) => {

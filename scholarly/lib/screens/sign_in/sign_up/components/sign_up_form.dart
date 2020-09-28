@@ -99,6 +99,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildAddressFormField() {
     return TextFormField(
+      controller: addressController,
       onSaved: (newValue) => address = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -125,6 +126,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildPhoneNumberFormField() {
     return TextFormField(
+      controller: phoneNumberController,
       keyboardType: TextInputType.phone,
       onSaved: (newValue) => phoneNumber = newValue,
       onChanged: (value) {
@@ -151,6 +153,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildLastNameFormField() {
     return TextFormField(
+      controller: lastNameController,
       onSaved: (newValue) => lastName = newValue,
       decoration: InputDecoration(
         labelText: "Last Name",
@@ -163,6 +166,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildFirstNameFormField() {
     return TextFormField(
+      controller: firstNameController,
       onSaved: (newValue) => firstName = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {

@@ -3,6 +3,7 @@ import 'package:Scholarly/components/custom_surfix_icon.dart';
 import 'package:Scholarly/components/form_error.dart';
 import 'package:Scholarly/screens/forgot_password/forgot_password_screen.dart';
 import 'package:Scholarly/screens/login_success/login_success_screen.dart';
+import 'package:Scholarly/modules/http.dart';
 
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
@@ -17,6 +18,8 @@ class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   bool remember = false;
   final List<String> errors = [];
 
@@ -32,6 +35,22 @@ class _SignFormState extends State<SignForm> {
       setState(() {
         errors.remove(error);
       });
+  }
+
+   loginUser() async {
+    var result = await http_post("login", {
+      "email": emailController.text,
+      "password": passwordController.text,
+    });
+    if (result.ok) {
+      String response = result.data['status'];
+      print(response);
+    }
+    if (_formKey.currentState.validate()) {
+          _formKey.currentState.save();
+          // if all are valid then go to success screen
+          Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+    }
   }
 
   @override
@@ -71,13 +90,7 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
             text: "Continue",
-            press: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                // if all are valid then go to success screen
-                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-              }
-            },
+            press: loginUser,
           ),
         ],
       ),
@@ -86,6 +99,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+      controller: passwordController,
       obscureText: true,
       onSaved: (newValue) => password = newValue,
       onChanged: (value) {
@@ -117,6 +131,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
+      controller: emailController,
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => email = newValue,
       onChanged: (value) {
