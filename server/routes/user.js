@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mysql = require('mysql')
+const bcrypt = require('bcrypt')
 
 const con = mysql.createPool({
     host: "localhost",
@@ -11,27 +12,35 @@ const con = mysql.createPool({
     connectionLimit: 10
 })
 
-router.post('/register', (req, res) => {
-    const email = req.body.email
-    const password = req.body.password
-    const firstname = req.body.firstname
-    const lastname = req.body.lastname
-    const phoneNumber = req.body.phone
-    const address = req.body.address
+router.post('/register', async (req, res) => {
+    try{
+        const salt = await bcrypt.genSalt()
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
+        console.log(salt)
+        console.log(hash)
+
+        const email = req.body.email
+        const password = hashedPassword
+        const firstname = req.body.firstname
+        const lastname = req.body.lastname
+        const phoneNumber = req.body.phone
+        const address = req.body.address
 
     if(email != "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" && password == "" || password.length < 9 ){
         console.log("credentials not valid")
     } else {
         var registerSql = "INSERT IGNORE INTO users (email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?);"
-        con.query(registerSql, [email, password, firstname, lastname, phoneNumber, address], (err, result, fields) => {
+        await con.query(registerSql, [email, password, firstname, lastname, phoneNumber, address], (err, result, fields) => {
             if (err){
                 console.log("Failed to insert new user: " + err)
             } else {
                 console.log("A new user has registered")
             }
         })
-        res.json({status:"OK"})
-        res.end()
+            res.end()
+        }
+    } catch(e){
+        res.status(500).send()
     }
 })
 
