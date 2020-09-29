@@ -1,4 +1,4 @@
-import 'dart:js';
+
 
 import 'package:flutter/widgets.dart';
 import 'package:Scholarly/screens/complete_profile/complete_profile_screen.dart';
