@@ -4,6 +4,7 @@ import '../../../size_config.dart';
 
 import 'package:Scholarly/constants.dart';
 import './details_screen.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import './category.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';

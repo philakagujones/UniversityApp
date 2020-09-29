@@ -1,5 +1,8 @@
-import 'dart:js';
+// import 'dart:js';
 
+// import 'dart:js';
+
+import 'package:Scholarly/screens/nav_bar/components/nav_bar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:Scholarly/screens/complete_profile/complete_profile_screen.dart';
 import 'package:Scholarly/screens/forgot_password/forgot_password_screen.dart';
@@ -22,4 +25,5 @@ final Map<String, WidgetBuilder> routes = {
   HomeScreen.routeName: (context) => HomeScreen(),
   SavedScreen.routeName: (context) => SavedScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
+  NavBar.routeName: (context) => NavBar(),
 };
