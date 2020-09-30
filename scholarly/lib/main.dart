@@ -9,7 +9,7 @@ void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: HomeScreen.routeName,
       home: BottomNavBar(),
-      // routes: routes,
+      routes: routes,
       theme: theme(),
     ));
 
