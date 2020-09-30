@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 // import 'dart:js';
-=======
-
->>>>>>> acdea6479d2794ed06d4162b982f1dc55360d0f3
-
 // import 'dart:js';
 
 import 'package:Scholarly/screens/nav_bar/components/nav_bar.dart';
