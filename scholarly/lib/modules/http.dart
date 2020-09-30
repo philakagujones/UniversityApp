@@ -29,7 +29,7 @@ async{
   } else{
     print(result.statusCode);
   }
-  return RequestResult(true, jsonDecode(result.body));
+  return RequestResult(true, json.decode(result.body));
 }
 
 Future<RequestResult> http_put(String route, [dynamic data])
@@ -43,5 +43,5 @@ async
   } else{
     print(result.statusCode);
   }
-  return await RequestResult(true, jsonDecode(result.body));
+  return RequestResult(true, jsonDecode(result.body));
 }
