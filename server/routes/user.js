@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const mysql = require('mysql')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
 
 const con = mysql.createPool({
     host: "localhost",
@@ -11,15 +13,23 @@ const con = mysql.createPool({
     connectionLimit: 10
 })
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
+    try {
+        const salt = await bcrypt.genSalt()
+        var hashedPassword = await bcrypt.hash(req.body.password, salt)
+    } catch{
+        res.status(500).json
+    }
+
     const email = req.body.email
-    const password = req.body.password
+    const password = hashedPassword
     const firstname = req.body.firstname
     const lastname = req.body.lastname
     const phoneNumber = req.body.phone
     const address = req.body.address
 
-    if(email != "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" && password == "" || password.length < 9 ){
+
+    if(email != "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" && password == null || password.length < 9 ){
         console.log("credentials not valid")
     } else {
         var registerSql = "INSERT IGNORE INTO users (email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?);"

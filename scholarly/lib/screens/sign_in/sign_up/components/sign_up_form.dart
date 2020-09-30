@@ -48,7 +48,7 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   createUser() async {
-    var result = await http_post("register", {
+    var result = await attempt_signup("register", {
       "email": emailController.text,
       "password": passwordController.text,
       "firstname": firstNameController.text,

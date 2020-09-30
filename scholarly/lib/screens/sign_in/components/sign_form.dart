@@ -38,7 +38,7 @@ class _SignFormState extends State<SignForm> {
   }
 
    loginUser() async {
-    var result = await http_post("authenticate", {
+    var result = await attempt_login("authenticate", {
       "email": emailController.text,
       "password": passwordController.text,
     });
@@ -46,7 +46,8 @@ class _SignFormState extends State<SignForm> {
       String response = result.data['status'];
       print(response);
     }
-    if (_formKey.currentState.validate()) {
+    
+    if (_formKey.currentState.validate() && result != null) {
           _formKey.currentState.save();
           // if all are valid then go to success screen
           Navigator.pushNamed(context, LoginSuccessScreen.routeName);

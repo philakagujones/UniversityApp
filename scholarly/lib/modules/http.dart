@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class RequestResult
 {
@@ -10,19 +11,20 @@ class RequestResult
 
 const PROTOCOL = "http";
 const DOMAIN = "192.168.0.23:8899";
+final storage = FlutterSecureStorage();
 
 Future<RequestResult> http_get(String route, [dynamic data]) async
 {
-  var dataStr = jsonEncode(data);
+  var dataStr = json.encode(data);
   var url = "$PROTOCOL://$DOMAIN/$route?data=$dataStr";
   var result = await http.get(url);
-  return RequestResult(true, jsonDecode(result.body));
+  return RequestResult(true, json.decode(result.body));
 }
 
-Future<RequestResult> http_post(String route, [dynamic data])
+Future<RequestResult> attempt_signup(String route, [dynamic data])
 async{
   var url = "$PROTOCOL://$DOMAIN/$route";
-  var dataStr = jsonEncode(data);
+  var dataStr = json.encode(data);
   var result = await http.post(url, body: dataStr, headers:{"Content-Type":"application/json"});
   if (result.statusCode == 200){
     print(json.decode(result.body));
@@ -32,16 +34,15 @@ async{
   return RequestResult(true, json.decode(result.body));
 }
 
-Future<RequestResult> http_put(String route, [dynamic data])
-async
-{
+Future<RequestResult> attempt_login(String route, [dynamic data])
+async{
   var url = "$PROTOCOL://$DOMAIN/$route";
-  var dataStr = jsonEncode(data);
-    var result = await http.put(url, body: dataStr, headers:{"Content-Type":"application/json"});
+  var dataStr = json.encode(data);
+  var result = await http.post(url, body: dataStr, headers:{"Content-Type":"application/json"});
   if (result.statusCode == 200){
     print(json.decode(result.body));
   } else{
     print(result.statusCode);
   }
-  return RequestResult(true, jsonDecode(result.body));
+  return RequestResult(true, json.decode(result.body));
 }

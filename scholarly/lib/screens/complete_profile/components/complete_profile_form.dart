@@ -38,21 +38,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       });
   }
 
-  updateUser() async {
-    var result = await http_put("register", {
-      "firstname": firstNameController.text,
-      "lastname": lastNameController.text,
-      "phone": phoneNumberController.text,
-      "address": addressController.text
-    });
-    if (result.ok) {
-      String response = result.data['status'];
-      print(response);
-    }
-    if (_formKey.currentState.validate()) {
-      Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
