@@ -22,7 +22,7 @@ Future<RequestResult> http_get(String route, [dynamic data]) async
 Future<RequestResult> http_post(String route, [dynamic data])
 async{
   var url = "$PROTOCOL://$DOMAIN/$route";
-  var dataStr = await jsonEncode(data);
+  var dataStr = jsonEncode(data);
   var result = await http.post(url, body: dataStr, headers:{"Content-Type":"application/json"});
   if (result.statusCode == 200){
     print(json.decode(result.body));
