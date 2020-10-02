@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class RequestResult
 {
@@ -11,7 +10,7 @@ class RequestResult
 
 const PROTOCOL = "http";
 const DOMAIN = "192.168.0.23:8899";
-final storage = FlutterSecureStorage();
+
 
 Future<RequestResult> http_get(String route, [dynamic data]) async
 {

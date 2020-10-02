@@ -38,7 +38,7 @@ class _SignFormState extends State<SignForm> {
   }
 
    loginUser() async {
-    var result = await attempt_login("authenticate", {
+    var result = await attempt_login("users/login", {
       "email": emailController.text,
       "password": passwordController.text,
     });
