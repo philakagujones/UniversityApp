@@ -3,6 +3,10 @@ const router = express.Router()
 const mysql = require('mysql')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
+const passport = require('passport')
+const initializePassport = require('./config/passport-config')
+
+initializePassport(passport)
 
 const con = mysql.createPool({
     host: "localhost",
@@ -13,10 +17,9 @@ const con = mysql.createPool({
     connectionLimit: 10
 })
 
-router.post('/register', async (req, res) => {
+router.post('/users', async (req, res) => {
     try {
-        const salt = await bcrypt.genSalt()
-        var hashedPassword = await bcrypt.hash(req.body.password, salt)
+        var hashedPassword = await bcrypt.hash(req.body.password, 10)
     } catch{
         res.status(500).json
     }
@@ -45,24 +48,9 @@ router.post('/register', async (req, res) => {
     }
 })
 
-/*router.put('/register', (req, res) => {
-    const email = req.body.email
-    const firstname = req.body.firstname
-    const lastname = req.body.lastname
-    const phoneNumber = req.body.phone
-    const address = req.body.address
-
-    var updateRegister = "UPDATE users SET firstname = ?, lastname = ?, phone = ?, address = ? WHERE email = ?"
-    con.query(updateRegister, [firstname, lastname, phoneNumber, address, email], (err, result, fields) => {
-        if (err){
-            console.log("Failed to update user: "  + err)
-        } else {
-            console.log("Success! user information updated")
-        }
-    })
-    res.json({status:"OK"})
-    res.end()
-})*/
+router.post('/users/login', async(req, res) => {
+   
+})
 
 router.get('/get-users', (req, res) =>{
     con.query("SELECT * FROM users", (err, rows, fields) => {
