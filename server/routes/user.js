@@ -3,6 +3,7 @@ const router = express.Router()
 const mysql = require('mysql')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
+const initializePassport = require('./config/passport-config')
 
 const con = mysql.createPool({
     host: "localhost",

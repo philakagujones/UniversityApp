@@ -7,7 +7,7 @@ import 'package:Scholarly/theme.dart';
 
 void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       // home: BottomNavBar(),
       routes: routes,
       theme: theme(),
