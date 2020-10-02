@@ -1,5 +1,7 @@
 import 'package:Scholarly/screens/home/home_screen.dart';
+import 'package:Scholarly/screens/login_success/login_success_screen.dart';
 import 'package:Scholarly/screens/nav_bar/components/nav.dart';
+import 'package:Scholarly/screens/nav_bar/components/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:Scholarly/routes.dart';
 import 'package:Scholarly/screens/splash/splash_screen.dart';
@@ -7,7 +9,7 @@ import 'package:Scholarly/theme.dart';
 
 void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: LoginSuccessScreen.routeName,
       // home: BottomNavBar(),
       routes: routes,
       theme: theme(),

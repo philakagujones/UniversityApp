@@ -1,3 +1,4 @@
+import 'package:Scholarly/screens/nav_bar/components/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:Scholarly/components/default_button.dart';
 import 'package:Scholarly/screens/home/home_screen.dart';
@@ -28,7 +29,7 @@ class Body extends StatelessWidget {
           child: DefaultButton(
             text: "Continue Home",
             press: () {
-              Navigator.pushNamed(context, HomeScreen.routeName);
+              Navigator.pushNamed(context, NavBar.routeName);
             },
           ),
         ),
