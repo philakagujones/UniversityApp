@@ -2,14 +2,6 @@ const express = require('express')
 const router = express.Router()
 const mysql = require('mysql')
 const bcrypt = require('bcrypt')
-const session = require('express-session')
-
-router.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 60000 }
-}))
 
 const con = mysql.createPool({
     host: "localhost",
@@ -52,7 +44,7 @@ router.post('/users', async (req, res) => {
 })
 
 router.post('/users/login', async(req, res) => {
-  
+   
 })
 
 router.get('/get-users', (req, res) =>{
