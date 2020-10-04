@@ -44,7 +44,25 @@ router.post('/users', async (req, res) => {
 })
 
 router.post('/users/login', async(req, res) => {
-   
+   var email = req.body.email
+   var password = req.body.password
+
+   con.query("SELECT * FROM users WHERE email = ?", [email], async (error, results, fields) => {
+       if (error){
+           res.status(400).send("Error occured")
+       } else {
+           if (results.length > 0){
+               const comparison = await bcrypt.compare(password, results[0].password)
+               if(comparison){
+                   res.json({status: "200 Login Successful"})
+               } else {
+                   res.json({status: "204 Email and Password don't match"})
+               }
+           } else {
+               res.json({status: "206 Email does not Exist"})
+           } 
+       }
+   })
 })
 
 router.get('/get-users', (req, res) =>{
