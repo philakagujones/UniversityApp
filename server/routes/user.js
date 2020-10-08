@@ -1,7 +1,10 @@
+require('dotenv').config()
+
 const express = require('express')
 const router = express.Router()
 const mysql = require('mysql')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const con = mysql.createPool({
     host: "localhost",
@@ -47,7 +50,7 @@ router.post('/users/login', async(req, res) => {
    var email = req.body.email
    var password = req.body.password
 
-   con.query("SELECT * FROM users WHERE email = ?", [email], async (error, results, fields) => {
+   var user = con.query("SELECT * FROM users WHERE email = ?", [email], async (error, results, fields) => {
        if (error){
            res.status(400).send("Error occured")
        } else {
@@ -65,6 +68,9 @@ router.post('/users/login', async(req, res) => {
            } 
        }
    })
+   const accessToken = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET)
+
+   res.json({accessToken: accessToken})
 })
 
 module.exports = router;
