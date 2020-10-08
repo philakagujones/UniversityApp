@@ -4,6 +4,7 @@ import 'package:Scholarly/screens/saved/saved.dart';
 import 'package:Scholarly/screens/explore/explore.dart';
 import 'package:Scholarly/screens/inbox/inbox.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/material/icons.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class BottomNavBar extends StatefulWidget {
