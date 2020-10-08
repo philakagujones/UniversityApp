@@ -42,12 +42,14 @@ class _SignFormState extends State<SignForm> {
       "email": emailController.text,
       "password": passwordController.text,
     });
+
+    String response = result.data['status'];
+
     if (result.ok) {
-      String response = result.data['status'];
       print(response);
     }
     
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState.validate() ) {
           _formKey.currentState.save();
           // if all are valid then go to success screen
           Navigator.pushNamed(context, LoginSuccessScreen.routeName);

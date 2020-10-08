@@ -54,28 +54,17 @@ router.post('/users/login', async(req, res) => {
            if (results.length > 0){
                const comparison = await bcrypt.compare(password, results[0].password)
                if(comparison){
-                   res.json({status: "200 Login Successful"})
+                   res.status(200).json({status: "200 Login Successful"})
                } else {
-                   res.json({status: "204 Email and Password don't match"})
+                   res.status(204).json({status: "204 Email and Password don't match"})
+                   res.end()
                }
            } else {
-               res.json({status: "206 Email does not Exist"})
+               res.status(206).json({status: "206 Email does not Exist"})
+               res.end()
            } 
        }
    })
-})
-
-router.get('/get-users', (req, res) =>{
-    con.query("SELECT * FROM users", (err, rows, fields) => {
-        if (err){
-            console.log("Failed to query for users: " + err)
-            res.sendStatus(500)
-            return
-            throw err
-        }
-        console.log("Users fetched successfully")
-        res.json(rows)
-    })
 })
 
 module.exports = router;
