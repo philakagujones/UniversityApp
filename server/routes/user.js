@@ -7,11 +7,11 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const con = mysql.createPool({
-    host: "localhost",
-    user: "bevan",
-    database: "university_app_local",
-    password: "encryptionking$3217",
-    port: 3306,
+    host: process.env.HOST,
+    user: process.env.USER,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
+    port: process.env.HOST,
     connectionLimit: 10
 })
 
