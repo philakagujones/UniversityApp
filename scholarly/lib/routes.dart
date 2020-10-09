@@ -1,6 +1,5 @@
-// import 'dart:js';
-// import 'dart:js';
-
+import 'package:Scholarly/screens/explore/explore.dart';
+import 'package:Scholarly/screens/inbox/inbox.dart';
 import 'package:Scholarly/screens/nav_bar/components/nav_bar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:Scholarly/screens/complete_profile/complete_profile_screen.dart';
@@ -25,4 +24,6 @@ final Map<String, WidgetBuilder> routes = {
   SavedScreen.routeName: (context) => SavedScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
   NavBar.routeName: (context) => NavBar(),
+  ExploreScreen.routeName: (context) => ExploreScreen(),
+  InboxScreen.routeName: (context) => InboxScreen(),
 };
