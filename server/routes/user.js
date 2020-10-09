@@ -5,15 +5,8 @@ const router = express.Router()
 const mysql = require('mysql')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const con = require('../config/mysql-config.js')
 
-const con = mysql.createPool({
-    host: process.env.HOST,
-    user: process.env.USER,
-    database: process.env.DATABASE,
-    password: process.env.PASSWORD,
-    port: process.env.HOST,
-    connectionLimit: 10
-})
 
 router.post('/users', async (req, res) => {
     try {
@@ -55,22 +48,25 @@ router.post('/users/login', async(req, res) => {
            res.status(400).send("Error occured")
        } else {
            if (results.length > 0){
+
                const comparison = await bcrypt.compare(password, results[0].password)
+               
                if(comparison){
-                   res.status(200).json({status: "200 Login Successful"})
+
+                   res.status(200).json({status: "200 Login Successful", accessToken: accessToken})
+
                } else {
                    res.status(204).json({status: "204 Email and Password don't match"})
                    res.end()
                }
+
            } else {
                res.status(206).json({status: "206 Email does not Exist"})
-               res.end()
            } 
        }
    })
-   const accessToken = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET)
-
-   res.json({accessToken: accessToken})
+    const accessToken = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET)
 })
+
 
 module.exports = router;
