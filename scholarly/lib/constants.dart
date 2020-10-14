@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:Scholarly/size_config.dart';
 
+const kSpacingUnit = 10;
+
+const kDarkPrimaryColor = Color(0xFF212121);
+const kDarkSecondaryColor = Color(0xFF373737);
+// ^ new
 const kPrimaryColor = Color(0xFF1565C0);
 const kPrimaryLightColor = Color(0xFFFFECDF);
 const kPrimaryGradientColor = LinearGradient(
@@ -13,12 +18,53 @@ const kTextColor = Color(0xFF757575);
 
 const kAnimationDuration = Duration(milliseconds: 200);
 
+final kButtonTextStyle = TextStyle(
+  fontSize: 24,
+  fontWeight: FontWeight.w400,
+  color: kDarkPrimaryColor,
+);
+// new ^
 final headingStyle = TextStyle(
   fontSize: getProportionateScreenWidth(28),
   fontWeight: FontWeight.bold,
   color: Colors.black,
   height: 1.5,
 );
+
+final kDarkTheme = ThemeData(
+  brightness: Brightness.dark,
+  fontFamily: 'SFProText',
+  primaryColor: kDarkPrimaryColor,
+  canvasColor: kDarkPrimaryColor,
+  backgroundColor: kDarkSecondaryColor,
+  accentColor: kPrimaryColor,
+  iconTheme: ThemeData.dark().iconTheme.copyWith(
+        color: kPrimaryLightColor,
+      ),
+  textTheme: ThemeData.dark().textTheme.apply(
+        fontFamily: 'SFProText',
+        bodyColor: kPrimaryLightColor,
+        displayColor: kPrimaryLightColor,
+      ),
+);
+
+final kLightTheme = ThemeData(
+  brightness: Brightness.light,
+  fontFamily: 'SFProText',
+  primaryColor: Colors.white,
+  canvasColor: Colors.white,
+  backgroundColor: kPrimaryLightColor,
+  accentColor: kPrimaryColor,
+  iconTheme: ThemeData.light().iconTheme.copyWith(
+        color: kDarkSecondaryColor,
+      ),
+  textTheme: ThemeData.light().textTheme.apply(
+        fontFamily: 'SFProText',
+        bodyColor: kDarkSecondaryColor,
+        displayColor: kDarkSecondaryColor,
+      ),
+);
+// new ^
 
 // Colors
 const kBlueColor = Color(0xFF6E8AFA);
