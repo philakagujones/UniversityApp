@@ -44,7 +44,7 @@ async{
     print(json.decode(result.body));
   } else{
     print(result.statusCode);
-    throw Exception("login failed");
+    throw Exception(result.statusCode);
   }
   return RequestResult(true, json.decode(result.body));
 }
