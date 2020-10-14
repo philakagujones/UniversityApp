@@ -43,9 +43,8 @@ class _SignFormState extends State<SignForm> {
       "password": passwordController.text,
     });
 
-    String response = result.data['status'];
-
     if (result.ok) {
+      String response = result.data['status'];
       print(response);
     }
     

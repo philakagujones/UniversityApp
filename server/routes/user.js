@@ -33,7 +33,8 @@ router.post('/users', async (req, res) => {
                 console.log("A new user has registered")
             }
         })
-        res.json({status:"OK"})
+        const accessToken = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET)
+        res.json({status:"OK", accessToken: accessToken})
         res.end()
     }
 })
@@ -51,9 +52,8 @@ router.post('/users/login', async(req, res) => {
                const comparison = await bcrypt.compare(password, results[0].password)
                
                if(comparison){
-
+                   const accessToken = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET)
                    res.status(200).json({status: "200 Login Successful", accessToken: accessToken})
-
                } else {
                    res.status(204).json({status: "204 Email and Password don't match"})
                    res.end()
@@ -64,8 +64,6 @@ router.post('/users/login', async(req, res) => {
            } 
        }
    })
-    const accessToken = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET)
 })
-
 
 module.exports = router;
