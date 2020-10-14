@@ -48,12 +48,12 @@ class Body extends StatelessWidget {
           ),
           SizedBox(height: kSpacingUnit.w * 2),
           Text(
-            'Nicolas Adams',
+            'Bevan Nutakor',
             style: kTitleTextStyle,
           ),
           SizedBox(height: kSpacingUnit.w * 0.5),
           Text(
-            'nicolasadams@gmail.com',
+            'bevannutakor@gmail.com',
             style: kSubheadingextStyle,
           ),
           SizedBox(height: kSpacingUnit.w * 2),
@@ -135,7 +135,7 @@ class Body extends StatelessWidget {
                       ),
                       ProfileListItem(
                         icon: LineAwesomeIcons.history,
-                        text: 'Purchase History',
+                        text: 'History',
                       ),
                       ProfileListItem(
                         icon: LineAwesomeIcons.question_circle,
