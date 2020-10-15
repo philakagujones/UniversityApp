@@ -10,7 +10,7 @@ class RequestResult
 }
 
 const PROTOCOL = "http";
-const DOMAIN = "192.168.0.23:8899";
+const DOMAIN = "192.168.0.25:8899";
 final storage = FlutterSecureStorage();
 
 
@@ -31,6 +31,7 @@ async{
     print(json.decode(result.body));
   } else{
     print(result.statusCode);
+    throw Exception(result.statusCode);
   }
   return RequestResult(true, json.decode(result.body));
 }

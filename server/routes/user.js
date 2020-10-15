@@ -21,23 +21,37 @@ router.post('/users', async (req, res) => {
     const phoneNumber = req.body.phone
     const address = req.body.address
 
+     //For jwt token expiration
+   var user = {name: email}
 
-    if(email != "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" && password == null || password.length < 9 ){
-        console.log("credentials not valid")
-    } else {
-        var registerSql = "INSERT IGNORE INTO users (email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?);"
-        con.query(registerSql, [email, password, firstname, lastname, phoneNumber, address], (err, result, fields) => {
-            if (err){
-                console.log("Failed to insert new user: " + err)
-            } else {
-                console.log("A new user has registered")
-            }
-        })
-        const accessToken = generateAccessToken(email)
-        res.json({status:"OK", accessToken: accessToken})
-        res.end()
-    }
+   //Insert sql query
+    var registerSql = "INSERT IGNORE INTO users (email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?);"
+
+    con.query('SELECT * FROM users WHERE email = ?', [email], (error, result, fields) => {
+        if (error){console.log("Something went wrong: " + err)} 
+
+        if(result.length>0){
+            res.status(409).json({status: "User already exists with that email"})
+        } else {
+            con.query(registerSql, [email, password, firstname, lastname, phoneNumber, address], (error, result, fields) => {
+                if (error){
+                    console.log("Failed to insert new user: " + error)
+                } else if (email != "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" && password == null || password.length < 9){
+    
+                    res.status(403).json({status: "invalid credentials- Forbidden "})
+                    
+                } else {
+                    const accessToken = generateAccessToken(user)
+                    res.json({status:"OK", accessToken: accessToken})
+                    console.log("A new user has registered")
+                }
+            })
+        }
+    })
 })
+
+
+
 
 router.post('/users/login', async(req, res) => {
    var email = req.body.email
