@@ -10,7 +10,7 @@ class RequestResult
 }
 
 const PROTOCOL = "http";
-const DOMAIN = "192.168.0.25:8899";
+const DOMAIN = "10.0.0.145:8899";
 final storage = FlutterSecureStorage();
 
 
