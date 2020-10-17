@@ -77,7 +77,7 @@ router.post('/users/login', async(req, res) => {
                }
 
            } else {
-               res.status(206).json({status: "206 Email does not Exist"})
+               res.status(404).json({status: "404 Email does not Exist"})
            } 
        }
    })
@@ -86,7 +86,7 @@ router.post('/users/login', async(req, res) => {
 //router.post('/logout', (req, res) => {})
 
 function generateAccessToken(user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '5s'})
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15d", algorithm: "HS256"})
 }
 
 module.exports = router;

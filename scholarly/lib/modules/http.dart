@@ -11,7 +11,7 @@ class RequestResult
 
 const PROTOCOL = "http";
 const DOMAIN = "10.0.0.145:8899";
-final storage = FlutterSecureStorage();
+final storage = new FlutterSecureStorage();
 
 
 Future<RequestResult> http_get(String route, [dynamic data]) async
