@@ -21,7 +21,8 @@ class Body extends StatelessWidget {
               children: <Widget>[
                 CircleAvatar(
                   radius: kSpacingUnit.w * 5,
-                  backgroundImage: AssetImage('assets/images/avatar.png'),
+                  backgroundImage:
+                      AssetImage('assets/images/Profile Image.png'),
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
