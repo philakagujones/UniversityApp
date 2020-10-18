@@ -21,29 +21,46 @@ router.post('/users', async (req, res) => {
     const phoneNumber = req.body.phone
     const address = req.body.address
 
+     //For jwt token expiration
+   var user = {name: email}
 
-    if(email != "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" && password == null || password.length < 9 ){
-        console.log("credentials not valid")
-    } else {
-        var registerSql = "INSERT IGNORE INTO users (email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?);"
-        con.query(registerSql, [email, password, firstname, lastname, phoneNumber, address], (err, result, fields) => {
-            if (err){
-                console.log("Failed to insert new user: " + err)
-            } else {
-                console.log("A new user has registered")
-            }
-        })
-        const accessToken = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET)
-        res.json({status:"OK", accessToken: accessToken})
-        res.end()
-    }
+   //Insert sql query
+    var registerSql = "INSERT IGNORE INTO users (email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?);"
+
+    con.query('SELECT * FROM users WHERE email = ?', [email], (error, result, fields) => {
+        if (error){console.log("Something went wrong: " + err)} 
+
+        if(result.length>0){
+            res.status(409).json({status: "User already exists with that email"})
+        } else {
+            con.query(registerSql, [email, password, firstname, lastname, phoneNumber, address], (error, result, fields) => {
+                if (error){
+                    console.log("Failed to insert new user: " + error)
+                } else if (email != "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" && password == null || password.length < 9){
+    
+                    res.status(403).json({status: "invalid credentials- Forbidden "})
+                    
+                } else {
+                    const accessToken = generateAccessToken(user)
+                    res.json({status:"OK", accessToken: accessToken})
+                    console.log("A new user has registered")
+                }
+            })
+        }
+    })
 })
+
+
+
 
 router.post('/users/login', async(req, res) => {
    var email = req.body.email
    var password = req.body.password
 
-   var user = con.query("SELECT * FROM users WHERE email = ?", [email], async (error, results, fields) => {
+   //For jwt token expiration
+   var user = {name: email}
+
+   con.query("SELECT * FROM users WHERE email = ?", [email], async (error, results, fields) => {
        if (error){
            res.status(400).send("Error occured")
        } else {
@@ -52,7 +69,7 @@ router.post('/users/login', async(req, res) => {
                const comparison = await bcrypt.compare(password, results[0].password)
                
                if(comparison){
-                   const accessToken = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET)
+                   const accessToken = generateAccessToken(user)
                    res.status(200).json({status: "200 Login Successful", accessToken: accessToken})
                } else {
                    res.status(204).json({status: "204 Email and Password don't match"})
@@ -60,10 +77,16 @@ router.post('/users/login', async(req, res) => {
                }
 
            } else {
-               res.status(206).json({status: "206 Email does not Exist"})
+               res.status(404).json({status: "404 Email does not Exist"})
            } 
        }
    })
 })
+
+//router.post('/logout', (req, res) => {})
+
+function generateAccessToken(user) {
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15d", algorithm: "HS256"})
+}
 
 module.exports = router;

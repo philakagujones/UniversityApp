@@ -10,8 +10,8 @@ class RequestResult
 }
 
 const PROTOCOL = "http";
-const DOMAIN = "192.168.0.23:8899";
-final storage = FlutterSecureStorage();
+const DOMAIN = "10.0.0.145:8899";
+final storage = new FlutterSecureStorage();
 
 
 Future<RequestResult> http_get(String route, [dynamic data]) async
@@ -31,6 +31,7 @@ async{
     print(json.decode(result.body));
   } else{
     print(result.statusCode);
+    throw Exception(result.statusCode);
   }
   return RequestResult(true, json.decode(result.body));
 }
@@ -44,7 +45,7 @@ async{
     print(json.decode(result.body));
   } else{
     print(result.statusCode);
-    throw Exception("login failed");
+    throw Exception(result.statusCode);
   }
   return RequestResult(true, json.decode(result.body));
 }
