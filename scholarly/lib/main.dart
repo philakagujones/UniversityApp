@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
-          theme: kDarkTheme,
+          theme: ThemeProvider.of(context),
           // home: SplashScreen(),
           // We use routeName so that we dont need to remember the name
           initialRoute: NavBar.routeName,
