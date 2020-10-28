@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
+const uuid = require('uuid');
 const jwt = require('jsonwebtoken')
 const con = require('../config/mysql-config.js')
 
@@ -20,12 +21,12 @@ router.post('/users', async (req, res) => {
     const lastname = req.body.lastname
     const phoneNumber = req.body.phone
     const address = req.body.address
-
+    const id = uuid.v4()
      //For jwt token expiration
    var user = {name: email}
 
    //Insert sql query
-    var registerSql = "INSERT IGNORE INTO users (email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?);"
+    var registerSql = `INSERT IGNORE INTO users (id, email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?,?);`
 
     con.query('SELECT * FROM users WHERE email = ?', [email], (error, result, fields) => {
         if (error){console.log("Something went wrong: " + err)} 
@@ -33,7 +34,7 @@ router.post('/users', async (req, res) => {
         if(result.length>0){
             res.status(409).json({status: "User already exists with that email"})
         } else {
-            con.query(registerSql, [email, password, firstname, lastname, phoneNumber, address], (error, result, fields) => {
+            con.query(registerSql, [id, email, password, firstname, lastname, phoneNumber, address], (error, result, fields) => {
                 if (error){
                     console.log("Failed to insert new user: " + error)
                 } else if (email != "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" && password == null || password.length < 9){
@@ -42,7 +43,8 @@ router.post('/users', async (req, res) => {
                     
                 } else {
                     const accessToken = generateAccessToken(user)
-                    res.json({status:"OK", accessToken: accessToken})
+                    const refreshToken = generateRefreshToken(user)
+                    res.json({status:"OK", accessToken: accessToken, refreshToken: refreshToken})
                     console.log("A new user has registered")
                 }
             })
@@ -57,10 +59,9 @@ router.post('/users/login', async(req, res) => {
    var email = req.body.email
    var password = req.body.password
 
-   //For jwt token expiration
-   var user = {name: email}
-
    con.query("SELECT * FROM users WHERE email = ?", [email], async (error, results, fields) => {
+       //For jwt token verification
+        var user = {name: results[0].email, id: results[0].id}
        if (error){
            res.status(400).send("Error occured")
        } else {
@@ -70,7 +71,10 @@ router.post('/users/login', async(req, res) => {
                
                if(comparison){
                    const accessToken = generateAccessToken(user)
-                   res.status(200).json({status: "200 Login Successful", accessToken: accessToken})
+
+                   const refreshToken = generateRefreshToken(user)
+
+                   res.status(200).json({status: "200 Login Successful", accessToken: accessToken, refreshToken: refreshToken})
                } else {
                    res.status(204).json({status: "204 Email and Password don't match"})
                    res.end()
@@ -83,10 +87,15 @@ router.post('/users/login', async(req, res) => {
    })
 })
 
-//router.post('/logout', (req, res) => {})
+//router.get('/verify:token', (req, res, next) => {});
+//router.delete('/logout', (req, res) => {})
 
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15d", algorithm: "HS256"})
+}
+
+function generateRefreshToken(user){
+    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "30d", algorithm: "HS256"})
 }
 
 module.exports = router;
