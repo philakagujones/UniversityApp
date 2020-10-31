@@ -18,7 +18,7 @@ Future<RequestResult> http_get(String route, [dynamic data]) async
 {
   var dataStr = json.encode(data);
   var url = "$PROTOCOL://$DOMAIN/$route?data=$dataStr";
-  var result = await http.get(url);
+  var result = await http.get(url, headers:{"Content-Type":"application/json"});
   return RequestResult(true, json.decode(result.body));
 }
 
