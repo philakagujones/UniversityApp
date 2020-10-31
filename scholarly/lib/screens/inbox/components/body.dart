@@ -5,7 +5,7 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.only(left: 2, top: 50, right: 10),
+        padding: EdgeInsets.only(left: 10, top: 50, right: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
