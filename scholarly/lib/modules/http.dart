@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -14,15 +15,24 @@ const DOMAIN = "10.0.0.145:8899";
 final storage = new FlutterSecureStorage();
 
 
-Future<RequestResult> http_get(String route, [dynamic data]) async
+Future<RequestResult> get_data(String route, [dynamic data]) async
 {
   var dataStr = json.encode(data);
   var url = "$PROTOCOL://$DOMAIN/$route?data=$dataStr";
   var result = await http.get(url, headers:{"Content-Type":"application/json"});
+  //Try and extract token from backend and do Verification on client
   return RequestResult(true, json.decode(result.body));
 }
 
-Future<RequestResult> attempt_signup(String route, [dynamic data])
+Future<String> getToken(String route)
+async
+{
+  var url = "$PROTOCOL://$DOMAIN/$route";
+  var header = "Bearer $token";
+  var result = await http.get(url, headers: {"Authorization": header});
+}
+
+Future<RequestResult> attempt_signup(String route,  [dynamic data])
 async{
   var url = "$PROTOCOL://$DOMAIN/$route";
   var dataStr = json.encode(data);

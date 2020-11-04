@@ -42,9 +42,11 @@ class _SignFormState extends State<SignForm> {
       "email": emailController.text,
       "password": passwordController.text,
     });
-    
+    var payload = emailController.text;
+   
     if (result.ok) {
       String response = result.data['status'];
+      storage.write(key: "jwt", value: payload);
       print(response);
     }
     

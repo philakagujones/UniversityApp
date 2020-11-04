@@ -55,13 +55,13 @@ router.post('/users', async (req, res) => {
 
 
 
-router.post('/users/login', async(req, res) => {
+router.post('/users/login',  async(req, res) => {
    var email = req.body.email
    var password = req.body.password
 
    con.query("SELECT * FROM users WHERE email = ?", [email], async (error, results, fields) => {
        //For jwt token verification
-        var user = {name: results[0].email, id: results[0].id}
+        var user = {name: `${results[0].email}`, id: `${results[0].id}`}
        if (error){
            res.status(400).send("Error occured")
        } else {
@@ -71,10 +71,14 @@ router.post('/users/login', async(req, res) => {
                
                if(comparison){
                    const accessToken = generateAccessToken(user)
-
+        
                    const refreshToken = generateRefreshToken(user)
 
-                   res.status(200).json({status: "200 Login Successful", accessToken: accessToken, refreshToken: refreshToken})
+                   //Put in a try catch statement
+                   //still in testing
+                   var decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+
+                   res.status(200).json({status: "200 Login Successful", accessToken: accessToken, refreshToken: refreshToken, verifyToken: decoded})
                } else {
                    res.status(204).json({status: "204 Email and Password don't match"})
                    res.end()
@@ -87,8 +91,11 @@ router.post('/users/login', async(req, res) => {
    })
 })
 
-//router.get('/verify:token', (req, res, next) => {});
+router.get('/jwt-verify', verifyToken, (req, res, next) => {
+    res.send(req.user)
+});
 //router.delete('/logout', (req, res) => {})
+//For logout if token expires throw error and go back to login page
 
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15d", algorithm: "HS256"})
@@ -96,6 +103,28 @@ function generateAccessToken(user) {
 
 function generateRefreshToken(user){
     return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "30d", algorithm: "HS256"})
+}
+
+//Code still doesn't work
+async function verifyToken(req, res, next){
+   const authHeader = req.headers['authorization'];
+   const bearer = authHeader && authHeader.split(' ')[0]
+   if(bearer != "Bearer"){
+       return res.status(401).json({status: "something went wrong with the token"})
+   }
+
+   const token = authHeader && authHeader.split(' ')[1]
+   if(token == null){
+       return res.status(401).json({status: "No token was passed"})
+   } else {
+       jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async(err, payload) => {
+           if (err){
+               return res.status(403).json({status: "Error"})
+           }
+           req.user = payload
+           next()
+       })
+   }
 }
 
 module.exports = router;
