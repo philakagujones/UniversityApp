@@ -42,16 +42,23 @@ class _SignFormState extends State<SignForm> {
       "email": emailController.text,
       "password": passwordController.text,
     });
+
+    String jwt = result.data['accessToken'];
+    storage.write(key: "jwt", value: jwt);
     
-    if (result.ok) {
+    var verify = await verifyToken("jwt-verify", {"Authorization": "Bearer $jwt"});
+
+    if (result.ok && verify.ok) {
       String response = result.data['status'];
       print(response);
+      print(jwt);
+      print(verify);
     }
     
     if (_formKey.currentState.validate() ) {
           _formKey.currentState.save();
           // if all are valid then go to success screen
-          Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+          Navigator.pushNamed(context, LoginSuccessScreen.routeName,);
     }
   }
 

@@ -8,6 +8,8 @@ const jwt = require('jsonwebtoken')
 const con = require('../config/mysql-config.js')
 
 
+
+
 router.post('/users', async (req, res) => {
     try {
         var hashedPassword = await bcrypt.hash(req.body.password, 10)
@@ -23,7 +25,7 @@ router.post('/users', async (req, res) => {
     const address = req.body.address
     const id = uuid.v4()
      //For jwt token expiration
-   var user = {name: email}
+    var user = {name: email}
 
    //Insert sql query
     var registerSql = `INSERT IGNORE INTO users (id, email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?,?);`
@@ -55,13 +57,13 @@ router.post('/users', async (req, res) => {
 
 
 
-router.post('/users/login', async(req, res) => {
+router.post('/users/login',  async(req, res) => {
    var email = req.body.email
    var password = req.body.password
 
    con.query("SELECT * FROM users WHERE email = ?", [email], async (error, results, fields) => {
        //For jwt token verification
-        var user = {name: results[0].email, id: results[0].id}
+        var user = {name: `${results[0].email}`, id: `${results[0].id}`}
        if (error){
            res.status(400).send("Error occured")
        } else {
@@ -71,10 +73,16 @@ router.post('/users/login', async(req, res) => {
                
                if(comparison){
                    const accessToken = generateAccessToken(user)
-
+        
                    const refreshToken = generateRefreshToken(user)
-
-                   res.status(200).json({status: "200 Login Successful", accessToken: accessToken, refreshToken: refreshToken})
+                   //Put in a try catch statement
+                   //still in testing
+                   try{
+                    var decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+                   } catch(err){
+                       res.status(403).json({status: "An Error has occured with the token"})
+                   }
+                   res.status(200).json({status: "200 Login Successful", accessToken: accessToken, refreshToken: refreshToken, verifyToken: decoded})
                } else {
                    res.status(204).json({status: "204 Email and Password don't match"})
                    res.end()
@@ -87,8 +95,12 @@ router.post('/users/login', async(req, res) => {
    })
 })
 
-//router.get('/verify:token', (req, res, next) => {});
+router.get('/jwt-verify', verifyToken, (req, res, next) => {
+    res.status(201).json({status: "Token verified"})
+});
+
 //router.delete('/logout', (req, res) => {})
+//For logout if token expires throw error and go back to login page
 
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15d", algorithm: "HS256"})
@@ -96,6 +108,26 @@ function generateAccessToken(user) {
 
 function generateRefreshToken(user){
     return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "30d", algorithm: "HS256"})
+}
+
+//Code still doesn't work
+function verifyToken(req, res, next){
+    const authHeader = req.headers['Authorization']
+
+    const bearer = authHeader && authHeader.split(' ')[0]
+    if (bearer !="Bearer"){
+        return res.status(401).json({status: "Bearer is null"})
+    }
+
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null){
+        return res.status(401).json({status: "Bad token"})
+    }
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+        if(err){
+            return res.sendStatus(403);
+        }else{req.user = payload}
+    })
 }
 
 module.exports = router;
