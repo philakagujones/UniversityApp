@@ -58,17 +58,20 @@ class Body extends StatelessWidget {
             style: kSubheadingextStyle,
           ),
           SizedBox(height: kSpacingUnit.w * 2),
-          Container(
-            height: kSpacingUnit.w * 4,
-            width: kSpacingUnit.w * 20,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(kSpacingUnit.w * 3),
-              color: Theme.of(context).accentColor,
-            ),
-            child: Center(
-              child: Text(
-                'Upgrade to PRO',
-                style: kButtonTextStyle,
+          InkWell(
+            onTap: () => print("Upgrade to PRO was pressed"),
+            child: Container(
+              height: kSpacingUnit.w * 4,
+              width: kSpacingUnit.w * 20,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(kSpacingUnit.w * 3),
+                color: Theme.of(context).accentColor,
+              ),
+              child: Center(
+                child: Text(
+                  'Upgrade to PRO',
+                  style: kButtonTextStyle,
+                ),
               ),
             ),
           ),
@@ -110,7 +113,7 @@ class Body extends StatelessWidget {
       children: <Widget>[
         SizedBox(width: kSpacingUnit.w * 3),
         Icon(
-          LineAwesomeIcons.graduation_cap,
+          LineAwesomeIcons.users,
           size: ScreenUtil().setSp(kSpacingUnit.w * 3),
         ),
         profileInfo,
@@ -130,30 +133,48 @@ class Body extends StatelessWidget {
                 Expanded(
                   child: ListView(
                     children: <Widget>[
-                      ProfileListItem(
-                        icon: LineAwesomeIcons.user_shield,
-                        text: 'Privacy',
+                      InkWell(
+                        onTap: () => print("Privacy was pressed"),
+                        child: ProfileListItem(
+                          icon: LineAwesomeIcons.user_shield,
+                          text: 'Privacy',
+                        ),
                       ),
-                      ProfileListItem(
-                        icon: LineAwesomeIcons.history,
-                        text: 'History',
+                      InkWell(
+                        onTap: () => print("History was pressed"),
+                        child: ProfileListItem(
+                          icon: LineAwesomeIcons.history,
+                          text: 'History',
+                        ),
                       ),
-                      ProfileListItem(
-                        icon: LineAwesomeIcons.question_circle,
-                        text: 'Help & Support',
+                      InkWell(
+                        onTap: () => print("Help & Support was pressed"),
+                        child: ProfileListItem(
+                          icon: LineAwesomeIcons.question_circle,
+                          text: 'Help & Support',
+                        ),
                       ),
-                      ProfileListItem(
-                        icon: LineAwesomeIcons.cog,
-                        text: 'Settings',
+                      InkWell(
+                        onTap: () => print("Settings was pressed"),
+                        child: ProfileListItem(
+                          icon: LineAwesomeIcons.cog,
+                          text: 'Settings',
+                        ),
                       ),
-                      ProfileListItem(
-                        icon: LineAwesomeIcons.user_plus,
-                        text: 'Invite a Friend',
+                      InkWell(
+                        onTap: () => print("Invite a Friend was pressed"),
+                        child: ProfileListItem(
+                          icon: LineAwesomeIcons.user_plus,
+                          text: 'Invite a Friend',
+                        ),
                       ),
-                      ProfileListItem(
-                        icon: LineAwesomeIcons.alternate_sign_out,
-                        text: 'Logout',
-                        hasNavigation: false,
+                      InkWell(
+                        onTap: () => print("Logout was pressed"),
+                        child: ProfileListItem(
+                          icon: LineAwesomeIcons.alternate_sign_out,
+                          text: 'Logout',
+                          hasNavigation: false,
+                        ),
                       ),
                     ],
                   ),
