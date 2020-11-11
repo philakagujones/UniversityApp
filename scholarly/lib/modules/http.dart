@@ -20,16 +20,24 @@ Future<RequestResult> get_data(String route, [dynamic data]) async
   var dataStr = json.encode(data);
   var url = "$PROTOCOL://$DOMAIN/$route?data=$dataStr";
   var result = await http.get(url, headers:{"Content-Type":"application/json"});
-  //Try and extract token from backend and do Verification on client
-  return RequestResult(true, json.decode(result.body));
 }
 
-Future<String> getToken(String route)
+
+Future<RequestResult> verifyToken(String route, [dynamic token])
 async
 {
   var url = "$PROTOCOL://$DOMAIN/$route";
-  var header = "Bearer $token";
-  var result = await http.get(url, headers: {"Authorization": header});
+  var verify = await http.get(url, headers: {HttpHeaders.authorizationHeader: "Basic token"});
+
+  if (verify.statusCode == 201){
+    print(json.decode(verify.body));
+  } else{
+    print(verify.statusCode);
+    throw Exception(verify.statusCode);
+  }
+
+  return RequestResult(true, json.decode(verify.body));
+
 }
 
 Future<RequestResult> attempt_signup(String route,  [dynamic data])

@@ -8,6 +8,8 @@ const jwt = require('jsonwebtoken')
 const con = require('../config/mysql-config.js')
 
 
+
+
 router.post('/users', async (req, res) => {
     try {
         var hashedPassword = await bcrypt.hash(req.body.password, 10)
@@ -23,7 +25,7 @@ router.post('/users', async (req, res) => {
     const address = req.body.address
     const id = uuid.v4()
      //For jwt token expiration
-   var user = {name: email}
+    var user = {name: email}
 
    //Insert sql query
     var registerSql = `INSERT IGNORE INTO users (id, email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?,?);`
@@ -73,11 +75,13 @@ router.post('/users/login',  async(req, res) => {
                    const accessToken = generateAccessToken(user)
         
                    const refreshToken = generateRefreshToken(user)
-
                    //Put in a try catch statement
                    //still in testing
-                   var decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
-
+                   try{
+                    var decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+                   } catch(err){
+                       res.status(403).json({status: "An Error has occured with the token"})
+                   }
                    res.status(200).json({status: "200 Login Successful", accessToken: accessToken, refreshToken: refreshToken, verifyToken: decoded})
                } else {
                    res.status(204).json({status: "204 Email and Password don't match"})
@@ -92,8 +96,9 @@ router.post('/users/login',  async(req, res) => {
 })
 
 router.get('/jwt-verify', verifyToken, (req, res, next) => {
-    res.send(req.user)
+    res.status(201).json({status: "Token verified"})
 });
+
 //router.delete('/logout', (req, res) => {})
 //For logout if token expires throw error and go back to login page
 
@@ -106,25 +111,23 @@ function generateRefreshToken(user){
 }
 
 //Code still doesn't work
-async function verifyToken(req, res, next){
-   const authHeader = req.headers['authorization'];
-   const bearer = authHeader && authHeader.split(' ')[0]
-   if(bearer != "Bearer"){
-       return res.status(401).json({status: "something went wrong with the token"})
-   }
+function verifyToken(req, res, next){
+    const authHeader = req.headers['Authorization']
 
-   const token = authHeader && authHeader.split(' ')[1]
-   if(token == null){
-       return res.status(401).json({status: "No token was passed"})
-   } else {
-       jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async(err, payload) => {
-           if (err){
-               return res.status(403).json({status: "Error"})
-           }
-           req.user = payload
-           next()
-       })
-   }
+    const bearer = authHeader && authHeader.split(' ')[0]
+    if (bearer !="Bearer"){
+        return res.status(401).json({status: "Bearer is null"})
+    }
+
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null){
+        return res.status(401).json({status: "Bad token"})
+    }
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+        if(err){
+            return res.sendStatus(403);
+        }else{req.user = payload}
+    })
 }
 
 module.exports = router;
