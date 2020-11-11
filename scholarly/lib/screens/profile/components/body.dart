@@ -110,7 +110,7 @@ class Body extends StatelessWidget {
       children: <Widget>[
         SizedBox(width: kSpacingUnit.w * 3),
         Icon(
-          LineAwesomeIcons.arrow_left,
+          LineAwesomeIcons.graduation_cap,
           size: ScreenUtil().setSp(kSpacingUnit.w * 3),
         ),
         profileInfo,
