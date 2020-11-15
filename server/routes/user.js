@@ -75,14 +75,8 @@ router.post('/users/login',  async(req, res) => {
                    const accessToken = generateAccessToken(user)
         
                    const refreshToken = generateRefreshToken(user)
-                   //Put in a try catch statement
-                   //still in testing
-                   try{
-                    var decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
-                   } catch(err){
-                       res.status(403).json({status: "An Error has occured with the token"})
-                   }
-                   res.status(200).json({status: "200 Login Successful", accessToken: accessToken, refreshToken: refreshToken, verifyToken: decoded})
+                   
+                   res.status(200).json({status: "200 Login Successful", accessToken: accessToken, refreshToken: refreshToken})
                } else {
                    res.status(204).json({status: "204 Email and Password don't match"})
                    res.end()
@@ -95,7 +89,7 @@ router.post('/users/login',  async(req, res) => {
    })
 })
 
-router.get('/jwt-verify', verifyToken, (req, res, next) => {
+router.get('/jwt-verify', verifyToken, (req, res) => {
     res.status(201).json({status: "Token verified"})
 });
 
@@ -112,21 +106,20 @@ function generateRefreshToken(user){
 
 //Code still doesn't work
 function verifyToken(req, res, next){
-    const authHeader = req.headers['Authorization']
+    const authHeader = req.headers.authorization
 
-    const bearer = authHeader && authHeader.split(' ')[0]
-    if (bearer !="Bearer"){
-        return res.status(401).json({status: "Bearer is null"})
-    }
-
-    const token = authHeader && authHeader.split(' ')[1]
+    const token = authHeader.split(' ')[3]
     if (token == null){
-        return res.status(401).json({status: "Bad token"})
+        return res.status(402).json({status: "Bad token"})
     }
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
         if(err){
-            return res.sendStatus(403);
-        }else{req.user = payload}
+            console.log(err)
+        
+            return res.status(500).json({status: "An error has occured"})
+        }
+        req.user = payload
+        next()
     })
 }
 

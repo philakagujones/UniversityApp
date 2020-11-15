@@ -23,11 +23,11 @@ Future<RequestResult> get_data(String route, [dynamic data]) async
 }
 
 
-Future<RequestResult> verifyToken(String route, [dynamic token])
+Future<RequestResult> verifyToken(String route, dynamic token)
 async
 {
   var url = "$PROTOCOL://$DOMAIN/$route";
-  var verify = await http.get(url, headers: {HttpHeaders.authorizationHeader: "Basic token"});
+  var verify = await http.get(url, headers: {'authorization': 'Bearer $token'});
 
   if (verify.statusCode == 201){
     print(json.decode(verify.body));
@@ -35,9 +35,7 @@ async
     print(verify.statusCode);
     throw Exception(verify.statusCode);
   }
-
   return RequestResult(true, json.decode(verify.body));
-
 }
 
 Future<RequestResult> attempt_signup(String route,  [dynamic data])

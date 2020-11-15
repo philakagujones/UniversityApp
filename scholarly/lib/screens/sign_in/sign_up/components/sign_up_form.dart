@@ -56,9 +56,16 @@ class _SignUpFormState extends State<SignUpForm> {
       "phone": phoneNumberController.text,
       "address": addressController.text
     });
+    String storedJwt = result.data['accessToken'];
+
+    await storage.write(key: "jwt", value: storedJwt);
+
+    String token = await storage.read(key: 'jwt');
+
     if (result.ok) {
       String response = result.data['status'];
       print(response);
+      print(token);
     }
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();

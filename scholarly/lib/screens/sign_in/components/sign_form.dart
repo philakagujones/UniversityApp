@@ -43,15 +43,18 @@ class _SignFormState extends State<SignForm> {
       "password": passwordController.text,
     });
 
-    String jwt = result.data['accessToken'];
-    storage.write(key: "jwt", value: jwt);
-    
-    var verify = await verifyToken("jwt-verify", {"Authorization": "Bearer $jwt"});
+    String storedJwt = result.data['accessToken'];
 
-    if (result.ok && verify.ok) {
+    await storage.write(key: "jwt", value: storedJwt);
+
+    String token = await storage.read(key: 'jwt');
+
+    var verify = await verifyToken("jwt-verify", {'authorization': 'Bearer $token '});
+
+    if (result.ok) {
       String response = result.data['status'];
       print(response);
-      print(jwt);
+      //print(token);
       print(verify);
     }
     
