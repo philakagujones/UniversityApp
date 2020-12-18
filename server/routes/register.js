@@ -4,9 +4,7 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
 const uuid = require('uuid');
-const jwt = require('jsonwebtoken')
 const con = require('../config/mysql-config.js')
-
 
 
 router.post('/register', async (req, res) => {
@@ -53,69 +51,5 @@ router.post('/register', async (req, res) => {
     })
 })
 
-
-router.post('/login',  async(req, res) => {
-   var email = req.body.email
-   var password = req.body.password
-
-   con.query("SELECT * FROM users WHERE email = ?", [email], async (error, results, fields) => {
-       //For jwt token verification
-        var user = {name: `${results[0].email}`, id: `${results[0].id}`}
-       if (error){
-           res.status(400).send("Error occured")
-       } else {
-           if (results.length > 0){
-
-               const comparison = await bcrypt.compare(password, results[0].password)
-               
-               if(comparison){
-                   const accessToken = generateAccessToken(user)
-        
-                   const refreshToken = generateRefreshToken(user)
-                   
-                   res.status(200).json({status: "200 Login Successful", accessToken: accessToken, refreshToken: refreshToken})
-               } else {
-                   res.status(204).json({status: "204 Email and Password don't match"})
-                   res.end()
-               }
-
-           } else {
-               res.status(404).json({status: "404 Email does not Exist"})
-           } 
-       }
-   })
-})
-
-router.get('/jwt-verify', verifyToken, (req, res) => {
-    res.status(201).json({status: "Token verified"})
-});
-
-//router.delete('/logout', (req, res) => {})
-
-function generateAccessToken(user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {algorithm: "HS256", expiresIn: '1h'})
-}
-
-function generateRefreshToken(user){
-    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {algorithm: "HS256", expiresIn: '1h'})
-}
-
-function verifyToken(req, res, next){
-    const authHeader = req.headers.authorization
-
-    const token = authHeader.split(' ')[3]
-    if (token == null){
-        return res.status(402).json({status: "Bad token"})
-    }
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
-        if(err){
-            console.log(err)
-        
-            return res.status(500).json({status: "An error has occured"})
-        }
-        req.user = payload
-        next()
-    })
-}
 
 module.exports = router;

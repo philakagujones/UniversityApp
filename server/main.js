@@ -1,13 +1,18 @@
 require('dotenv').config()
 
 const express = require('express');
-const user = require('./routes/register.js')
+const register = require('./routes/register.js')
+const login = require('./routes/login.js')
+const logout = require('./routes/logout.js')
+const jwtverify = require('./routes/jwt-verify')
 
 const app = express()
 
 app.use(express.json())
 
-app.use(user)
+app.use(register)
+app.use(login)
+app.use(jwtverify)
 
 app.listen(process.env.APP_PORT, () => {
     console.log("listening")
