@@ -38,6 +38,7 @@ async
   return RequestResult(true, json.decode(verify.body));
 }
 
+
 Future<RequestResult> attempt_signup(String route,  [dynamic data])
 async{
   var url = "$PROTOCOL://$DOMAIN/$route";

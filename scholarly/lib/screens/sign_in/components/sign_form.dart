@@ -38,7 +38,7 @@ class _SignFormState extends State<SignForm> {
   }
 
    loginUser() async {
-    var result = await attempt_login("users/login", {
+    var result = await attempt_login("login", {
       "email": emailController.text,
       "password": passwordController.text,
     });
@@ -55,7 +55,6 @@ class _SignFormState extends State<SignForm> {
       String response = result.data['status'];
       print(response);
       //print(token);
-      print(verify);
     }
     
     if (_formKey.currentState.validate() ) {

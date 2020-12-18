@@ -9,12 +9,11 @@ const con = require('../config/mysql-config.js')
 
 
 
-
-router.post('/users', async (req, res) => {
+router.post('/register', async (req, res) => {
     try {
         var hashedPassword = await bcrypt.hash(req.body.password, 10)
     } catch{
-        res.status(500).json
+        res.status(500).json({status: "Password failed to hash"})
     }
 
     const email = req.body.email
@@ -55,9 +54,7 @@ router.post('/users', async (req, res) => {
 })
 
 
-
-
-router.post('/users/login',  async(req, res) => {
+router.post('/login',  async(req, res) => {
    var email = req.body.email
    var password = req.body.password
 
@@ -94,17 +91,15 @@ router.get('/jwt-verify', verifyToken, (req, res) => {
 });
 
 //router.delete('/logout', (req, res) => {})
-//For logout if token expires throw error and go back to login page
 
 function generateAccessToken(user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15d", algorithm: "HS256"})
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {algorithm: "HS256", expiresIn: '1h'})
 }
 
 function generateRefreshToken(user){
-    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "30d", algorithm: "HS256"})
+    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {algorithm: "HS256", expiresIn: '1h'})
 }
 
-//Code still doesn't work
 function verifyToken(req, res, next){
     const authHeader = req.headers.authorization
 
