@@ -34,7 +34,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           Icon(Icons.bookmark, size: 30),
           Icon(Icons.search, size: 30),
           Icon(Icons.home, size: 30),
-          Icon(Icons.messenger_outline, size: 30),
+          Icon(Icons.message, size: 30),
           Icon(Icons.person, size: 30),
         ],
         color: Colors.white10,
