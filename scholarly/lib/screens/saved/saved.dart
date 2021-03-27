@@ -10,7 +10,7 @@ class SavedScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Saved"),
       ),
-      body: Body(),
+      body: Search(),
     );
   }
 }

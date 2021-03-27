@@ -6,8 +6,10 @@ const kSpacingUnit = 10;
 const kDarkPrimaryColor = Color(0xFF212121);
 const kDarkSecondaryColor = Color(0xFF373737);
 // ^ new
-const kPrimaryColor = Color(0xFF1565C0);
-const kPrimaryLightColor = Color(0xFFFFECDF);
+const kPrimaryColor = Color(0xFFBBDEFB);
+// ^ blue accent
+const kPrimaryLightColor = Color(0xFFECEFF1);
+// ^ light mode accent + profile buttons
 const kPrimaryGradientColor = LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
