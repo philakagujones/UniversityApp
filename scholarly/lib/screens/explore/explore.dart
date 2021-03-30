@@ -9,6 +9,7 @@ class ExploreScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Explore"),
+        automaticallyImplyLeading: false,
       ),
       body: Body(),
     );

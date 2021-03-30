@@ -1,3 +1,4 @@
+import 'package:Scholarly/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:Scholarly/screens/home/components/data.dart';
 import 'package:Scholarly/screens/home/components/detail.dart';
@@ -109,7 +110,7 @@ class _SearchState extends State<Search> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.yellow[700],
+                    color: kPrimaryColor,
                     borderRadius: BorderRadius.all(
                       Radius.circular(5),
                     ),
@@ -122,7 +123,7 @@ class _SearchState extends State<Search> {
                     child: Text(
                       "FOR " + property.label,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -202,7 +203,7 @@ class _SearchState extends State<Search> {
                           children: [
                             Icon(
                               Icons.star,
-                              color: Colors.yellow[700],
+                              color: kPrimaryColor,
                               size: 14,
                             ),
                             SizedBox(

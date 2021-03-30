@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:Scholarly/screens/home/components/data.dart';
+import 'package:Scholarly/constants.dart';
 
 class Detail extends StatelessWidget {
   final Property property;
@@ -72,7 +73,7 @@ class Detail extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.yellow[700],
+                      color: kPrimaryColor,
                       borderRadius: BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -85,7 +86,7 @@ class Detail extends StatelessWidget {
                       child: Text(
                         "FOR " + property.label,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -116,7 +117,7 @@ class Detail extends StatelessWidget {
                         child: Center(
                           child: Icon(
                             Icons.favorite,
-                            color: Colors.yellow[700],
+                            color: kPrimaryColor,
                             size: 20,
                           ),
                         ),
@@ -177,7 +178,7 @@ class Detail extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.star,
-                            color: Colors.yellow[700],
+                            color: kPrimaryColor,
                             size: 16,
                           ),
                           SizedBox(
@@ -244,6 +245,7 @@ class Detail extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
+                                      color: Colors.black,
                                     ),
                                   ),
                                   SizedBox(
@@ -253,7 +255,7 @@ class Detail extends StatelessWidget {
                                     "Property Owner",
                                     style: TextStyle(
                                       fontSize: 18,
-                                      color: Colors.grey[500],
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ],
@@ -266,13 +268,13 @@ class Detail extends StatelessWidget {
                                 height: 50,
                                 width: 50,
                                 decoration: BoxDecoration(
-                                  color: Colors.yellow[700].withOpacity(0.1),
+                                  color: kPrimaryColor.withOpacity(0.1),
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
                                   child: Icon(
                                     Icons.phone,
-                                    color: Colors.yellow[700],
+                                    color: kPrimaryColor,
                                     size: 20,
                                   ),
                                 ),
@@ -284,13 +286,13 @@ class Detail extends StatelessWidget {
                                 height: 50,
                                 width: 50,
                                 decoration: BoxDecoration(
-                                  color: Colors.yellow[700].withOpacity(0.1),
+                                  color: kPrimaryColor.withOpacity(0.1),
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
                                   child: Icon(
                                     Icons.message,
-                                    color: Colors.yellow[700],
+                                    color: kPrimaryColor,
                                     size: 20,
                                   ),
                                 ),
@@ -327,6 +329,7 @@ class Detail extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -386,7 +389,7 @@ class Detail extends StatelessWidget {
       children: [
         Icon(
           iconData,
-          color: Colors.yellow[700],
+          color: kPrimaryColor,
           size: 28,
         ),
         SizedBox(

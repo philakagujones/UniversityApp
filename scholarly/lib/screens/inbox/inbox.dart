@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'components/body.dart';
 
 class InboxScreen extends StatelessWidget {
@@ -9,6 +8,7 @@ class InboxScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Inbox"),
+        automaticallyImplyLeading: false,
       ),
       body: Body(),
     );

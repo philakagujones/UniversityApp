@@ -9,6 +9,7 @@ class SavedScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Saved"),
+        automaticallyImplyLeading: false,
       ),
       body: Search(),
     );
