@@ -54,7 +54,7 @@ class _SignFormState extends State<SignForm> {
     if (result.ok) {
       String response = result.data['status'];
       print(response);
-      //print(token);
+      //to check if jwt is stored in local storage print(await storage.readAll());
     }
     
     if (_formKey.currentState.validate() ) {

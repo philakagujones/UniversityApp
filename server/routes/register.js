@@ -5,6 +5,8 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 const uuid = require('uuid');
 const con = require('../config/mysql-config.js')
+const generateAccessToken = require('../config/accessToken.js')
+const generateRefreshToken = require('../config/refreshToken')
 
 
 router.post('/register', async (req, res) => {
@@ -21,19 +23,21 @@ router.post('/register', async (req, res) => {
     const phoneNumber = req.body.phone
     const address = req.body.address
     const id = uuid.v4()
-     //For jwt token expiration
-    var user = {name: email}
 
    //Insert sql query
     var registerSql = `INSERT IGNORE INTO users (id, email, password, firstname, lastname, phone, address) VALUES (?,?,?,?,?,?,?);`
 
-    con.query('SELECT * FROM users WHERE email = ?', [email], (error, result, fields) => {
+    con.query('SELECT * FROM users WHERE email = ?', [email], (error, results, fields) => {
+        
         if (error){console.log("Something went wrong: " + err)} 
 
-        if(result.length>0){
+        if(results.length>0){
             res.status(409).json({status: "User already exists with that email"})
         } else {
-            con.query(registerSql, [id, email, password, firstname, lastname, phoneNumber, address], (error, result, fields) => {
+            con.query(registerSql, [id, email, password, firstname, lastname, phoneNumber, address], (error, results, fields) => {
+
+                var user = {name: email, id: id}
+
                 if (error){
                     console.log("Failed to insert new user: " + error)
                 } else if (email != "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" && password == null || password.length < 9){
@@ -48,7 +52,7 @@ router.post('/register', async (req, res) => {
                 }
             })
         }
-    })
+    }) 
 })
 
 

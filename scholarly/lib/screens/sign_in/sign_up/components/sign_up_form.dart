@@ -62,10 +62,11 @@ class _SignUpFormState extends State<SignUpForm> {
 
     String token = await storage.read(key: 'jwt');
 
+    var verify = await verifyToken("jwt-verify", {'authorization': 'Bearer $token '});
+
     if (result.ok) {
       String response = result.data['status'];
       print(response);
-      print(token);
     }
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();

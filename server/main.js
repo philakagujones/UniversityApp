@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express');
 const register = require('./routes/register.js')
 const login = require('./routes/login.js')
-const logout = require('./routes/logout.js')
+//const logout = require('./routes/logout.js')
 const jwtverify = require('./routes/jwt-verify')
 
 const app = express()
