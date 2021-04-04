@@ -16,12 +16,12 @@ class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String, String>> splashData = [
     {
-      "text": "Welcome to Scholarly, \nThe #1 Canadian scholarship app!",
+      "text": "Welcome to Homey, \nThe #1 house finding app in Canada!",
       "image": "assets/images/splash_1.png"
     },
     {
       "text":
-          "We help connect students with scholarships \nfrom all around Canada.",
+          "We help connect students with great properties \nfrom all around Canada.",
       "image": "assets/images/splash_2.png"
     },
     {

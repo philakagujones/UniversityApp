@@ -1,3 +1,4 @@
+import 'package:Scholarly/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -169,7 +170,8 @@ class Body extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () => print("Logout was pressed"),
+                        onTap: () => Navigator.pushNamed(
+                            context, SplashScreen.routeName),
                         child: ProfileListItem(
                           icon: LineAwesomeIcons.alternate_sign_out,
                           text: 'Logout',
