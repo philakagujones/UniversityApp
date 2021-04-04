@@ -13,6 +13,7 @@ app.use(express.json())
 app.use(register)
 app.use(login)
 app.use(jwtverify)
+app.use(logout)
 
 app.listen(process.env.APP_PORT, () => {
     console.log("listening")

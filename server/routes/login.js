@@ -15,13 +15,18 @@ router.post('/login',  async(req, res) => {
     con.query("SELECT * FROM users WHERE email = ?", [email], async (error, results, fields) => {
         //For jwt token verification
          var user = {name: `${results[0].email}`, id: `${results[0].id}`}
+
         if (error){
             res.status(400).send("Error occured")
         } else {
+            //check to see if user inputed data is in database
             if (results.length > 0){
- 
+                
+                //compare the user inputed password with hashed password in database
                 const comparison = await bcrypt.compare(password, results[0].password)
                 
+                //if comparisson is true assign access token
+                //TODO: generate refreshToken only after accessToken expires, and do it infinately till user logs out
                 if(comparison){
                     const accessToken = generateAccessToken(user)
          
