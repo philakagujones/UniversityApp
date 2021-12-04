@@ -48,7 +48,7 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   createUser() async {
-    var result = await attempt_signup("register", {
+    var result = await postRoute("register", {
       "email": emailController.text,
       "password": passwordController.text,
       "firstname": firstNameController.text,
@@ -62,10 +62,11 @@ class _SignUpFormState extends State<SignUpForm> {
 
     String token = await storage.read(key: 'jwt');
 
-    var verify = await verifyToken("jwt-verify", {'authorization': 'Bearer $token '});
+    var verifyToken = await verifyTokens("jwt-verify", {'authorization': 'Bearer $token '});
 
     if (result.ok) {
       String response = result.data['status'];
+      print(verifyToken);
       print(response);
     }
     if (_formKey.currentState.validate()) {

@@ -38,7 +38,7 @@ class _SignFormState extends State<SignForm> {
   }
 
   loginUser() async {
-    var result = await attempt_login("login", {
+    var result = await postRoute("login", {
       "email": emailController.text,
       "password": passwordController.text,
     });
@@ -49,13 +49,11 @@ class _SignFormState extends State<SignForm> {
 
     String token = await storage.read(key: 'jwt');
 
-    var verify =
-        await verifyToken("jwt-verify", {'authorization': 'Bearer $token '});
+    var verifyToken = await verifyTokens("jwt-verify", {'authorization': 'Bearer $token '});
 
     if (result.ok) {
       String response = result.data['status'];
       print(response);
-      //to check if jwt is stored in local storage print(await storage.readAll());
     }
 
     if (_formKey.currentState.validate()) {

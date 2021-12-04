@@ -4,6 +4,7 @@ const express = require('express');
 const register = require('./routes/register.js')
 const login = require('./routes/login.js')
 const logout = require('./routes/logout.js')
+const saveListing = require('./routes/save-listing')
 const jwtverify = require('./routes/jwt-verify')
 
 const app = express()

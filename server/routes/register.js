@@ -31,7 +31,7 @@ router.post('/register', async (req, res) => {
         
         if (error){console.log("Something went wrong: " + err)} 
 
-        if(results.length>0){
+        if(results.length > 0){
             res.status(409).json({status: "User already exists with that email"})
         } else {
             con.query(registerSql, [id, email, password, firstname, lastname, phoneNumber, address], (error, results, fields) => {
@@ -47,6 +47,7 @@ router.post('/register', async (req, res) => {
                 } else {
                     const accessToken = generateAccessToken(user)
                     const refreshToken = generateRefreshToken(user)
+                   
                     res.json({status:"OK", accessToken: accessToken, refreshToken: refreshToken})
                     console.log("A new user has registered")
                 }

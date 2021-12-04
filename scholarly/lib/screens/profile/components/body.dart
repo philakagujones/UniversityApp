@@ -5,8 +5,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:Scholarly/constants.dart';
+import 'package:Scholarly/modules/http.dart';
 
 class Body extends StatelessWidget {
+
+ logoutUser() async {
+   String token = await storage.read(key: 'jwt');
+   var result = await verifyTokens("logout", {'authorization': 'Bearer $token '});
+
+   if (result.ok){
+     await storage.delete(key: 'jwt');
+     String response = result.data['status'];
+     print(response + " Token wiped from Local Storage");
+   }
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, height: 896, width: 414, allowFontScaling: true);
@@ -170,8 +183,8 @@ class Body extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () => Navigator.pushNamed(
-                            context, SplashScreen.routeName),
+                        onTap: () => {Navigator.pushNamed(
+                            context, SplashScreen.routeName), logoutUser()} ,
                         child: ProfileListItem(
                           icon: LineAwesomeIcons.alternate_sign_out,
                           text: 'Logout',

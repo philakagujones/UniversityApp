@@ -1,7 +1,11 @@
+const express = require('express')
+const router = express.Router()
 const blacklistToken = require('../config/blacklistToken')
+const verifyToken = require('../config/verifyToken')
 
-router.post('/logout', blacklistToken, (req, res) => {
-   res.status(200).json({message: 'A user has succesfully logged out'})
+router.get('/logout', verifyToken, blacklistToken, (req, res) => {
+   console.log("user " + req.user.id + " has logged out")
+   res.status(201).json({status: '200 A user has succesfully logged out'})
 })
 
 module.exports = router;
